@@ -24,18 +24,18 @@ class Exercise extends Component<Props, State> {
   }
 
   public componentDidMount(): void {
+    const textLines = this.renderLines();
+    this.setState(() => ({ textLines }));
+
+    this.refocusMainInput();
+  }
+
+  private refocusMainInput = (): void => {
     const refInput = this.inputRef.current;
 
     if (refInput) {
       refInput.focus();
     }
-
-    const textLines = this.renderLines();
-    this.setState(() => ({ textLines }));
-  }
-
-  private handleOnLoad = (e: BaseSyntheticEvent): void => {
-    e.currentTarget.focus();
   };
 
   private splitTextToLines = (): string[] => {
@@ -48,7 +48,6 @@ class Exercise extends Component<Props, State> {
 
     return this.splitTextToLines().map((line, ind) => {
       const key = hash(`${exercise.id}${ind}${line}`);
-      console.log(key);
       return <p key={key}>{line}</p>;
     });
   };
@@ -73,8 +72,7 @@ class Exercise extends Component<Props, State> {
           type="text"
           value={typedText}
           onChange={this.handleOnChange}
-          onLoad={this.handleOnLoad}
-          onBlur={this.handleOnLoad}
+          onBlur={this.refocusMainInput}
         />
 
         <p>{typedText}</p>
