@@ -1,25 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
+import Exercises from './components/Exercises';
+import Exercise from './components/Exercise';
 
 class App extends Component {
-  render() {
+  public state = {
+    exercises: [
+      {
+        id: 121434,
+        title: 'Lorem ipsum',
+        text:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet blanditiis dicta distinctio ea id\n' +
+          '        impedit, laboriosam maiores maxime numquam optio perspiciatis quaerat sit temporibus totam, ullam voluptatem?\n' +
+          '        Dolor, perferendis?',
+      },
+      {
+        id: 9754453,
+        title: 'Accusamus aliquam',
+        text:
+          'Accusamus aliquam aspernatur at autem blanditiis dolore dolores enim esse est et excepturi facere hic iste\n' +
+          '        libero, minima molestiae mollitia nemo officiis omnis possimus rerum saepe temporibus voluptas voluptate\n' +
+          '        voluptatum.',
+      },
+      {
+        id: 8723987,
+        title: 'Accusantium consequuntur',
+        text:
+          'Accusantium consequuntur doloremque facilis incidunt sed unde. Alias dolorem fuga ipsum itaque optio quae\n' +
+          '        quia ratione sequi, ullam vel! A adipisci delectus dicta eum fuga, fugit impedit neque saepe voluptatum!',
+      },
+    ],
+  };
+
+  public render(): React.ReactElement {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>New TouchyTyper!</h1>
+
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => <Exercises exercises={this.state.exercises} />}
+          />
+          <Route
+            path="/exercise/:id"
+            render={(props) => <Exercise exercise={props.location.state} />}
+          />
+        </Switch>
       </div>
     );
   }
