@@ -25,7 +25,6 @@ class Line extends Component<Props, {}> {
   private renderTokens = (): React.ReactElement[] => {
     const re = /\S+[\s\S]?/g;
     const originalTokens = this.props.lineText.match(re);
-    // const typedTokens = this.props.typedLineText.match(re);
     let totalLength = 0;
 
     if (originalTokens) {
