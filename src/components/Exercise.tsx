@@ -1,6 +1,7 @@
 import React, { BaseSyntheticEvent, Component } from 'react';
 import { Link } from 'react-router-dom';
 import hash from 'object-hash';
+import Line from './Line';
 
 interface Props {
   exercise: { id: number; title: string; text: string };
@@ -8,7 +9,6 @@ interface Props {
 
 interface State {
   typedText: string;
-  textLines: React.ReactElement[];
 }
 
 class Exercise extends Component<Props, State> {
@@ -17,16 +17,12 @@ class Exercise extends Component<Props, State> {
 
     this.state = {
       typedText: '',
-      textLines: [],
     };
 
     this.inputRef = React.createRef();
   }
 
   public componentDidMount(): void {
-    const textLines = this.renderLines();
-    this.setState(() => ({ textLines }));
-
     this.refocusMainInput();
   }
 
@@ -39,16 +35,32 @@ class Exercise extends Component<Props, State> {
   };
 
   private splitTextToLines = (): string[] => {
-    const re = /[\w\W]{1,55}[.!?\s]/gm;
+    const re = /[\w\W]{1,55}[.!?\s]/g;
     return this.props.exercise.text.match(re) || [];
   };
 
   private renderLines = (): React.ReactElement[] => {
     const { exercise } = this.props;
+    let totalLength = 0;
 
     return this.splitTextToLines().map((line, ind) => {
       const key = hash(`${exercise.id}${ind}${line}`);
-      return <p key={key}>{line}</p>;
+      const typedLine = this.state.typedText.slice(
+        totalLength,
+        totalLength + line.length,
+      );
+      totalLength += line.length;
+
+      return (
+        <Line
+          key={key}
+          lineKey={key}
+          lineText={line}
+          typedLineText={typedLine}
+          exerciseTextLength={this.props.exercise.text.length}
+          typedTextLength={this.state.typedText.length}
+        />
+      );
     });
   };
 
@@ -62,7 +74,7 @@ class Exercise extends Component<Props, State> {
 
   public render(): React.ReactElement {
     const { title } = this.props.exercise;
-    const { typedText, textLines } = this.state;
+    const { typedText } = this.state;
 
     return (
       <section>
@@ -75,8 +87,9 @@ class Exercise extends Component<Props, State> {
           onBlur={this.refocusMainInput}
         />
 
-        <p>{typedText}</p>
-        <article>{textLines}</article>
+        <p>{typedText || '-'}</p>
+        <hr />
+        <article>{this.renderLines()}</article>
 
         <section />
 
