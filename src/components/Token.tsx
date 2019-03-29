@@ -5,19 +5,30 @@ import Char from './Char';
 interface Props {
   tokenKey: string;
   originalToken: string;
-  typedToken: string;
+  typedToken: string | null;
 }
 
 class Token extends Component<Props, {}> {
-  public shouldComponentUpdate(nextProps: Props) {
-    return this.props.typedToken === nextProps.typedToken;
+  public shouldComponentUpdate(nextProps: Props): boolean {
+    return this.props.typedToken !== nextProps.typedToken;
   }
 
   private renderCharacters = (): React.ReactElement[] => {
-    return this.props.originalToken.split('').map((char, ind) => {
-      const key = hash(`${this.props.tokenKey}${ind}${char}`);
-      return <Char key={key} char={char} />;
-    });
+    const { typedToken } = this.props;
+
+    // console.log('Token:', typedToken);
+
+    return this.props.originalToken
+      .split('')
+      .map((char, ind) => (
+        <Char
+          key={hash(`${this.props.tokenKey}${ind}${char}`)}
+          char={char}
+          typedChar={
+            typedToken && typedToken.length >= ind + 1 ? typedToken[ind] : null
+          }
+        />
+      ));
   };
 
   public render(): React.ReactElement {
