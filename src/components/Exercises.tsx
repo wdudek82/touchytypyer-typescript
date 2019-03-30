@@ -1,13 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { ExercisesState } from '../store/reducers/exercisesReducer';
 
-interface Props {
-  exercises: { id: number; title: string; text: string }[];
+interface OwnProps {
 }
 
-const Exercises = (props: Props): React.ReactElement => {
+interface StateProps {
+  exercisesState: ExercisesState;
+}
+
+type CompProps = OwnProps & StateProps;
+
+const Exercises = (props: CompProps): React.ReactElement => {
   const renderExercises = (): React.ReactElement[] => {
-    return props.exercises.map((exercise) => (
+    return props.exercisesState.exercises.map((exercise) => (
       <li key={exercise.id}>
         <Link to={{ pathname: `/exercise/${exercise.id}`, state: exercise }}>
           {exercise.title}
@@ -24,4 +31,10 @@ const Exercises = (props: Props): React.ReactElement => {
   );
 };
 
-export default Exercises;
+function mapStateToProps(state: StateProps, ownProps: OwnProps): StateProps {
+  return {
+    exercisesState: state.exercisesState,
+  };
+}
+
+export default connect(mapStateToProps)(Exercises);
