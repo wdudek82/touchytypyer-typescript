@@ -78,10 +78,7 @@ class Exercise extends Component<ComProps> {
   };
 
   private handleOnChange = (e: BaseSyntheticEvent): void => {
-    const textTypedByUser = e.currentTarget.value;
-
-    // this.setState(() => ({ typedText }));
-    this.props.setTypedText(textTypedByUser);
+    this.props.setTypedText(e.currentTarget.value);
   };
 
   private readonly inputRef: React.RefObject<HTMLInputElement>;
