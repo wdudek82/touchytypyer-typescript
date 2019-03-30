@@ -32,7 +32,7 @@ class Token extends Component<Props, {}> {
   };
 
   public render(): React.ReactElement {
-    return <div>{this.renderCharacters()}</div>;
+    return <span>{this.renderCharacters()}</span>;
   }
 }
 

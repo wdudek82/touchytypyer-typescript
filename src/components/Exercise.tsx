@@ -1,24 +1,37 @@
 import React, { BaseSyntheticEvent, Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, match } from 'react-router-dom';
 import hash from 'object-hash';
+import { connect } from 'react-redux';
+import { ExerciseItem, ExercisesState } from '../store/reducers/exercisesReducer';
+import { setTypedText } from '../store/actions/exercisesActions';
 import Line from './Line';
 
-interface Props {
-  exercise: { id: number; title: string; text: string };
+interface RouterParams {
+  id: string;
 }
 
-interface State {
-  typedText: string;
+interface RouterProps {
+  match: match<RouterParams>;
 }
 
-class Exercise extends Component<Props, State> {
-  public constructor(props: Props) {
+interface StateProps {
+  exercisesState: ExercisesState;
+}
+
+interface MappedProps {
+  exercise: ExerciseItem;
+  textTypedByUser: string;
+}
+
+interface DispatchProps {
+  setTypedText: (text: string) => void;
+}
+
+type ComProps = RouterProps & MappedProps & DispatchProps;
+
+class Exercise extends Component<ComProps> {
+  public constructor(props: ComProps) {
     super(props);
-
-    this.state = {
-      typedText: '',
-    };
-
     this.inputRef = React.createRef();
   }
 
@@ -40,12 +53,12 @@ class Exercise extends Component<Props, State> {
   };
 
   private renderLines = (): React.ReactElement[] => {
-    const { exercise } = this.props;
+    const exercise = { id: 0, title: 'Foo', text: 'Bar' };
     let totalLength = 0;
 
     return this.splitTextToLines().map((line, ind) => {
       const key = hash(`${exercise.id}${ind}${line}`);
-      const typedLine = this.state.typedText.slice(
+      const typedLineText = this.props.textTypedByUser.slice(
         totalLength,
         totalLength + line.length,
       );
@@ -56,25 +69,26 @@ class Exercise extends Component<Props, State> {
           key={key}
           lineKey={key}
           lineText={line}
-          typedLineText={typedLine}
+          typedLineText={typedLineText}
           exerciseTextLength={this.props.exercise.text.length}
-          typedTextLength={this.state.typedText.length}
+          typedTextLength={this.props.textTypedByUser.length}
         />
       );
     });
   };
 
   private handleOnChange = (e: BaseSyntheticEvent): void => {
-    const typedText = e.currentTarget.value;
+    const textTypedByUser = e.currentTarget.value;
 
-    this.setState(() => ({ typedText }));
+    // this.setState(() => ({ typedText }));
+    this.props.setTypedText(textTypedByUser);
   };
 
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   public render(): React.ReactElement {
     const { title } = this.props.exercise;
-    const { typedText } = this.state;
+    const { textTypedByUser } = this.props;
 
     return (
       <section>
@@ -82,12 +96,12 @@ class Exercise extends Component<Props, State> {
         <input
           ref={this.inputRef}
           type="text"
-          value={typedText}
+          value={textTypedByUser}
           onChange={this.handleOnChange}
           onBlur={this.refocusMainInput}
         />
 
-        <p>{typedText || '-'}</p>
+        <p>{textTypedByUser || '-'}</p>
         <hr />
         <article>{this.renderLines()}</article>
 
@@ -99,4 +113,21 @@ class Exercise extends Component<Props, State> {
   }
 }
 
-export default Exercise;
+function mapStateToProps(state: StateProps, comProps: ComProps): MappedProps {
+  let exercise = state.exercisesState.exercises.find(
+    (e: ExerciseItem) => `${e.id}` === comProps.match.params.id,
+  );
+  if (!exercise) {
+    exercise = { id: -1, title: 'Exercise Not found', text: 'None' };
+  }
+
+  return {
+    exercise,
+    textTypedByUser: state.exercisesState.textTypedByUser,
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { setTypedText },
+)(Exercise);

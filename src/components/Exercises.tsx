@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ExercisesState } from '../store/reducers/exercisesReducer';
 
-interface OwnProps {
-}
-
 interface StateProps {
   exercisesState: ExercisesState;
 }
 
-type CompProps = OwnProps & StateProps;
+type CompProps = {} & StateProps;
 
 const Exercises = (props: CompProps): React.ReactElement => {
   const renderExercises = (): React.ReactElement[] => {
@@ -31,7 +28,7 @@ const Exercises = (props: CompProps): React.ReactElement => {
   );
 };
 
-function mapStateToProps(state: StateProps, ownProps: OwnProps): StateProps {
+function mapStateToProps(state: StateProps, ownProps: {}): StateProps {
   return {
     exercisesState: state.exercisesState,
   };

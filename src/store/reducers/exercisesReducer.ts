@@ -1,12 +1,13 @@
+import { SET_TYPED_TEXT } from '../actions/types';
+import { ExercisesAction } from '../actions/exercisesActions';
+
 const initialState: ExercisesState = {
   exercises: [
     {
       id: 121434,
       title: 'Lorem ipsum',
       text:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet blanditiis dicta distinctio ea id\n' +
-        '        impedit, laboriosam maiores maxime numquam optio perspiciatis quaerat sit temporibus totam, ullam voluptatem?\n' +
-        '        Dolor, perferendis?',
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet blanditiis dicta distinctio ea id impedit, laboriosam maiores maxime numquam optio perspiciatis quaerat sit temporibus totam, ullam voluptatem? Dolor, perferendis?',
     },
     {
       id: 9754453,
@@ -28,21 +29,16 @@ const initialState: ExercisesState = {
   textTypedByUser: '',
 };
 
-interface Exercise {
+export interface ExerciseItem {
   id: number;
   title: string;
   text: string;
 }
 
 export interface ExercisesState {
-  exercises: Exercise[];
-  currentExercise?: Exercise | null;
+  exercises: ExerciseItem[];
+  currentExercise?: ExerciseItem | null;
   textTypedByUser: string;
-}
-
-export interface ExercisesAction {
-  type: string;
-  payload: object;
 }
 
 export default function exercises(
@@ -50,6 +46,11 @@ export default function exercises(
   action: ExercisesAction,
 ): ExercisesState {
   switch (action.type) {
+    case SET_TYPED_TEXT:
+      return {
+        ...state,
+        textTypedByUser: action.text,
+      };
     default:
       return state;
   }

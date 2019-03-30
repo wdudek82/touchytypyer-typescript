@@ -10,10 +10,7 @@ const App = (): React.ReactElement => {
 
       <Switch>
         <Route path="/" exact component={Exercises} />
-        <Route
-          path="/exercise/:id"
-          render={(p) => <Exercise exercise={p.location.state} />}
-        />
+        <Route path="/exercise/:id" component={Exercise} />
       </Switch>
     </div>
   );
