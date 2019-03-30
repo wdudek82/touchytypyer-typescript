@@ -6,7 +6,7 @@ interface Props {
 }
 
 class Char extends Component<Props> {
-  public state = {
+  public readonly state = {
     correct: 0,
     fixed: 0,
   };

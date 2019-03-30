@@ -12,14 +12,7 @@ interface Props {
 
 class Line extends Component<Props, {}> {
   public shouldComponentUpdate(nextProps: Props): boolean {
-    // return this.props.typedLineText !== nextProps.typedLineText;
-    if (this.props.typedLineText === nextProps.typedLineText) {
-      console.log('Line rerender skipped');
-      return false;
-    }
-
-    console.log('Line', this.props.typedLineText, nextProps.typedLineText);
-    return true;
+    return this.props.typedLineText !== nextProps.typedLineText;
   }
 
   private renderTokens = (): React.ReactElement[] => {
