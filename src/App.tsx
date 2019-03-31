@@ -28,7 +28,9 @@ const App = (): React.ReactElement => {
   return (
     <div className="App">
       <GlobalStyles />
-      <h1>New TouchyTyper!</h1>
+      <h1 style={{ textAlign: 'center', margin: '2rem 0 1rem' }}>
+        New TouchyTyper!
+      </h1>
 
       <Switch>
         <Route path="/" exact component={Exercises} />

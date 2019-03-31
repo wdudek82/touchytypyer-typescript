@@ -119,6 +119,7 @@ class Exercise extends Component<ComProps> {
 
     return (
       <section>
+        <Link to="/">Go Back</Link>
         <h2>{title}</h2>
 
         <MainInput
@@ -133,8 +134,6 @@ class Exercise extends Component<ComProps> {
         </ExerciseContainer>
 
         <section />
-
-        <Link to="/">Go Back</Link>
       </section>
     );
   }
