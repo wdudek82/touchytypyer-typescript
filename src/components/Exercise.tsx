@@ -2,9 +2,23 @@ import React, { BaseSyntheticEvent, Component } from 'react';
 import { Link, match } from 'react-router-dom';
 import hash from 'object-hash';
 import { connect } from 'react-redux';
+import styled from 'styled-components/macro';
 import { ExerciseItem, ExercisesState } from '../store/reducers/exercisesReducer';
 import { setTypedText } from '../store/actions/exercisesActions';
 import Line from './Line';
+
+const ExerciseContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+`;
+
+const StyledExercise = styled.article`
+  background: #55b5ff;
+  border-radius: 5px;
+  padding: 1rem;
+`;
 
 interface RouterParams {
   id: string;
@@ -48,7 +62,7 @@ class Exercise extends Component<ComProps> {
   };
 
   private splitTextToLines = (): string[] => {
-    const re = /[\w\W]{1,55}[.!?\s]/g;
+    const re = /[\w\W]{1,45}[.!?\s]/g;
     return this.props.exercise.text.match(re) || [];
   };
 
@@ -70,8 +84,6 @@ class Exercise extends Component<ComProps> {
           lineKey={key}
           lineText={line}
           typedLineText={typedLineText}
-          exerciseTextLength={this.props.exercise.text.length}
-          typedTextLength={this.props.textTypedByUser.length}
         />
       );
     });
@@ -100,7 +112,9 @@ class Exercise extends Component<ComProps> {
 
         <p>{textTypedByUser || '-'}</p>
         <hr />
-        <article>{this.renderLines()}</article>
+        <ExerciseContainer>
+          <StyledExercise>{this.renderLines()}</StyledExercise>
+        </ExerciseContainer>
 
         <section />
 
@@ -114,6 +128,7 @@ function mapStateToProps(state: StateProps, comProps: ComProps): MappedProps {
   let exercise = state.exercisesState.exercises.find(
     (e: ExerciseItem) => `${e.id}` === comProps.match.params.id,
   );
+
   if (!exercise) {
     exercise = { id: -1, title: 'Exercise Not found', text: 'None' };
   }

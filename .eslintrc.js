@@ -102,6 +102,9 @@ module.exports = {
       1,
       { extensions: ['.js', '.jsx', '.tsx'] },
     ],
+    // rule is no longer relevant since React 16.3:
+    // https://github.com/yannickcr/eslint-plugin-react/issues/1754
+    'react/no-did-update-set-state': 0,
     'react/destructuring-assignment': 0,
     'react/jsx-boolean-value': 1,
     'react/jsx-one-expression-per-line': 0,

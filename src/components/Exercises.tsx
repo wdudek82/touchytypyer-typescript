@@ -28,7 +28,7 @@ const Exercises = (props: CompProps): React.ReactElement => {
   );
 };
 
-function mapStateToProps(state: StateProps, ownProps: {}): StateProps {
+function mapStateToProps(state: StateProps): StateProps {
   return {
     exercisesState: state.exercisesState,
   };
