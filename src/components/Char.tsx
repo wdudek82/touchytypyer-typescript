@@ -16,11 +16,11 @@ const StyledChar = styled.span`
   align-content: center;
   background: none;
   color: #3c3c3c;
-  width: 1.6rem;
+  width: 1.5rem;
   height: var(--height);
   line-height: var(--height);
-  font-size: 2.5rem;
-  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 3rem;
+  font-family: 'Ubuntu Mono', sans-serif;
   border-radius: 2px;
   margin: 3px 1px 0 0;
 

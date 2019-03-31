@@ -6,6 +6,7 @@ import Token from './Token';
 const StyledLine = styled.div`
   display: flex;
   margin-bottom: 1rem;
+  border-bottom: 1px solid #fff;
 `;
 
 interface Props {
