@@ -4,7 +4,7 @@ import hash from 'object-hash';
 import { connect } from 'react-redux';
 import styled from 'styled-components/macro';
 import { ExerciseItem, ExercisesState } from '../store/reducers/exercisesReducer';
-import { setTypedText } from '../store/actions/exercisesActions';
+import { SET_TYPED_TEXT } from '../store/actions/types';
 import Line from './Line';
 
 const ExerciseContainer = styled.div`
@@ -67,15 +67,21 @@ class Exercise extends Component<ComProps> {
   };
 
   private renderLines = (): React.ReactElement[] => {
+    const { textTypedByUser } = this.props;
     const exercise = { id: 0, title: 'Foo', text: 'Bar' };
     let totalLength = 0;
 
     return this.splitTextToLines().map((line, ind) => {
       const key = hash(`${exercise.id}${ind}${line}`);
-      const typedLineText = this.props.textTypedByUser.slice(
+      const typedLineText = textTypedByUser.slice(
         totalLength,
         totalLength + line.length,
       );
+
+      const isCurrent =
+        textTypedByUser.length >= totalLength &&
+        textTypedByUser.length <= totalLength + line.length - 1;
+
       totalLength += line.length;
 
       return (
@@ -84,6 +90,7 @@ class Exercise extends Component<ComProps> {
           lineKey={key}
           lineText={line}
           typedLineText={typedLineText}
+          isCurrentLine={isCurrent}
         />
       );
     });
@@ -139,7 +146,11 @@ function mapStateToProps(state: StateProps, comProps: ComProps): MappedProps {
   };
 }
 
+const mapDispatchToProps = {
+  setTypedText: (text: string) => ({ type: SET_TYPED_TEXT, text }),
+};
+
 export default connect(
   mapStateToProps,
-  { setTypedText },
+  mapDispatchToProps,
 )(Exercise);

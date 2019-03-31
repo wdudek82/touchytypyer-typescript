@@ -5,35 +5,43 @@ import Token from './Token';
 
 const StyledLine = styled.div`
   display: flex;
+  margin-bottom: 1rem;
 `;
 
 interface Props {
   lineKey: string;
   lineText: string;
   typedLineText: string;
+  isCurrentLine: boolean;
 }
 
 class Line extends Component<Props, {}> {
   public shouldComponentUpdate(nextProps: Props): boolean {
-    return this.props.typedLineText !== nextProps.typedLineText;
+    return (
+      this.props.typedLineText !== nextProps.typedLineText ||
+      this.props.isCurrentLine !== nextProps.isCurrentLine
+    );
   }
 
   private renderTokens = (): React.ReactElement[] => {
     const re = /\S+[\s\S]?/g;
     const originalTokens = this.props.lineText.match(re);
+    const { typedLineText, isCurrentLine } = this.props;
     let totalLength = 0;
-
-    console.log('Typed line length:', this.props.typedLineText.length);
-    console.log('typedLineText: ', this.props.typedLineText);
 
     if (originalTokens) {
       return originalTokens.map((originalToken: string, ind) => {
         const key = hash(`${this.props.lineKey}${ind}${originalToken}`);
 
-        const typedToken = this.props.typedLineText.slice(
+        const typedToken = typedLineText.slice(
           totalLength,
           totalLength + originalToken.length,
         );
+
+        const isCurrent =
+          typedLineText.length >= totalLength &&
+          typedLineText.length <= totalLength + originalToken.length - 1 &&
+          isCurrentLine;
 
         totalLength += originalToken.length;
 
@@ -43,6 +51,7 @@ class Line extends Component<Props, {}> {
             tokenKey={key}
             originalToken={originalToken}
             typedToken={typedToken}
+            isCurrentToken={isCurrent}
           />
         );
       });

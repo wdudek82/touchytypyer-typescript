@@ -9,17 +9,18 @@ interface StyledCharProps {
 }
 
 const StyledChar = styled.span`
-  --height: 3rem;
+  --height: 3.5rem;
 
   display: flex;
   justify-content: center;
   align-content: center;
-  background: #eee;
-  color: #333;
-  width: 1.8rem;
+  background: none;
+  color: #444;
+  width: 1.6rem;
   height: var(--height);
   line-height: var(--height);
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-family: 'Ubuntu Condensed', sans-serif;
   border-radius: 3px;
   margin: 1px;
 
@@ -28,8 +29,8 @@ const StyledChar = styled.span`
   p.typedChar &&
   p.isCorrect &&
   css`
-      background: ${p.isMistake ? '#feffac' : '#d4ffc3'};
-      color: ${p.isMistake ? '#db6b12' : '#006500'};
+      background: ${p.isMistake ? '#ffffd4' : '#ceffea'};
+      color: ${p.isMistake ? '#794300' : '#014b25'};
     `}
 
   /* Typed character was incorrect */
@@ -37,16 +38,18 @@ const StyledChar = styled.span`
   p.typedChar &&
   !p.isCorrect &&
   css`
-      background: #ffd0d0;
-      color: #f00;
+      background: #ffd4d4;
+      color: #87000e;
     `}
   
-    /* Caret */
+  /* Caret */
   ${(p: StyledCharProps) =>
   p.showCaret &&
   css`
-      background: #b8d8ff;
+      background: #a8d5ff;
       color: initial;
+      border-bottom: 3px solid #0077ff;
+      border-radius: 0;
     `}
 `;
 
@@ -66,7 +69,6 @@ class Char extends Component<Props, State> {
   };
 
   public shouldComponentUpdate(nextProps: Props): boolean {
-    console.log(this.props, nextProps);
     return (
       this.props.typedChar !== nextProps.typedChar ||
       this.props.showCaret !== nextProps.showCaret
