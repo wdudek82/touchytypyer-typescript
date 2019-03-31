@@ -7,6 +7,17 @@ import { ExerciseItem, ExercisesState } from '../store/reducers/exercisesReducer
 import { SET_TYPED_TEXT } from '../store/actions/types';
 import Line from './Line';
 
+const MainInput = styled.input.attrs({
+  type: 'text',
+})`
+  color: transparent;
+  background: transparent;
+  width: 0;
+  height: 0;
+  border: none;
+  outline: none;
+`;
+
 const ExerciseContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -109,16 +120,14 @@ class Exercise extends Component<ComProps> {
     return (
       <section>
         <h2>{title}</h2>
-        <input
+
+        <MainInput
           ref={this.inputRef}
-          type="text"
           value={textTypedByUser}
           onChange={this.handleOnChange}
           onBlur={this.refocusMainInput}
         />
 
-        <p>{textTypedByUser || '-'}</p>
-        <hr />
         <ExerciseContainer>
           <StyledExercise>{this.renderLines()}</StyledExercise>
         </ExerciseContainer>

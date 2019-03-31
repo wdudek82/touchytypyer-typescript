@@ -13,8 +13,8 @@ const StyledToken = styled.div`
   border-radius: 5px;
 
   ${(p: StyledTokenProps) =>
-  p.isCurrent &&
-  css`
+    p.isCurrent &&
+    css`
       border-top: 2px solid #444;
     `};
 `;

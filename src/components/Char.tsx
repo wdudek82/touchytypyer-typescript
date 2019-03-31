@@ -15,7 +15,7 @@ const StyledChar = styled.span`
   justify-content: center;
   align-content: center;
   background: none;
-  color: #444;
+  color: #3c3c3c;
   width: 1.6rem;
   height: var(--height);
   line-height: var(--height);
@@ -26,28 +26,27 @@ const StyledChar = styled.span`
 
   /* Typed character correct w/o fixed mistake */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  p.isCorrect &&
-  css`
-      background: ${p.isMistake ? '#ffffd4' : '#ceffea'};
-      color: ${p.isMistake ? '#794300' : '#014b25'};
+    p.typedChar &&
+    p.isCorrect &&
+    css`
+      background: ${p.isMistake ? '#ffffa8' : '#ceffea'};
+      color: ${p.isMistake ? '#734000' : '#01401e'};
     `}
 
   /* Typed character was incorrect */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  !p.isCorrect &&
-  css`
-      background: #ffd4d4;
-      color: #87000e;
+    p.typedChar &&
+    !p.isCorrect &&
+    css`
+      background: #ffc3c3;
+      color: #6b000c;
     `}
   
   /* Caret */
   ${(p: StyledCharProps) =>
-  p.showCaret &&
-  css`
+    p.showCaret &&
+    css`
       background: #a8d5ff;
-      color: initial;
       border-bottom: 3px solid #0077ff;
       border-radius: 0;
     `}
