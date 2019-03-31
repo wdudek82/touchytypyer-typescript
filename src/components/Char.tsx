@@ -21,8 +21,8 @@ const StyledChar = styled.span`
   line-height: var(--height);
   font-size: 2.5rem;
   font-family: 'Ubuntu Condensed', sans-serif;
-  border-radius: 3px;
-  margin: 1px;
+  border-radius: 2px;
+  margin: 3px 1px 0 0;
 
   /* Typed character correct w/o fixed mistake */
   ${(p: StyledCharProps) =>

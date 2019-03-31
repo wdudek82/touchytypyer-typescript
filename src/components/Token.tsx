@@ -38,10 +38,6 @@ class Token extends Component<Props, {}> {
     const { typedToken, isCurrentToken } = this.props;
 
     return this.props.originalToken.split('').map((char, ind) => {
-      // let showCaret = false;
-      // if (typedToken) {
-      //   showCaret = typedToken.length === ind;
-      // }
       const showCaret =
         isCurrentToken && (typedToken === null || typedToken.length === ind);
 
