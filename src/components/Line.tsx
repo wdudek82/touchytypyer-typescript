@@ -5,8 +5,11 @@ import Token from './Token';
 
 const StyledLine = styled.div`
   display: flex;
-  margin-bottom: 1.2rem;
   border-bottom: 1px solid #fff;
+
+  &:not(:last-child) {
+    margin-bottom: 1.2rem;
+  }
 `;
 
 interface Props {

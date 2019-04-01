@@ -28,7 +28,7 @@ const ExerciseContainer = styled.div`
 const StyledExercise = styled.article`
   background: #55b5ff;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 2rem;
 `;
 
 interface RouterParams {
@@ -74,7 +74,8 @@ class Exercise extends Component<ComProps> {
 
   private splitTextToLines = (): string[] => {
     const re = /[\w\W]{1,45}[.!?\s]/g;
-    return this.props.exercise.text.match(re) || [];
+    const normalizedText = this.props.exercise.text.replace(/\s+/g, ' ');
+    return normalizedText.match(re) || [];
   };
 
   private renderLines = (): React.ReactElement[] => {

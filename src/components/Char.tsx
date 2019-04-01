@@ -51,11 +51,9 @@ const StyledChar = styled.span`
         position: absolute;
         content: '${p.typedChar}';
         color: #ff0022;
-        z-index: 10;
         animation: ${fadeinError} 800ms ease-in-out forwards;
       }
     `}
-  
 
   /* Caret */
   ${(p: StyledCharProps) =>
