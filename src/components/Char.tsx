@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components/macro';
+import styled, { css, keyframes } from 'styled-components/macro';
+
+const fadeinError = keyframes`
+  from { opacity: 1 }
+  to { opacity: 0 }
+`;
 
 interface StyledCharProps {
   typedChar: string | null;
@@ -11,6 +16,7 @@ interface StyledCharProps {
 const StyledChar = styled.span`
   --height: 3.5rem;
 
+  position: relative;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -22,7 +28,7 @@ const StyledChar = styled.span`
   font-size: 3rem;
   font-family: 'Ubuntu Mono', sans-serif;
   border-radius: 2px;
-  margin: 3px 1px 0 0;
+  margin: 3px 1px 2px 0;
 
   /* Typed character correct w/o fixed mistake */
   ${(p: StyledCharProps) =>
@@ -40,8 +46,17 @@ const StyledChar = styled.span`
     css`
       background: #ffc3c3;
       color: #6b000c;
+      
+      &::before {
+        position: absolute;
+        content: '${p.typedChar}';
+        color: #ff0022;
+        z-index: 10;
+        animation: ${fadeinError} 800ms ease-in-out forwards;
+      }
     `}
   
+
   /* Caret */
   ${(p: StyledCharProps) =>
     p.showCaret &&
