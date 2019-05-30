@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Route, Switch } from "react-router-dom";
 import Exercises from "components/Exercises";
 import Exercise from "../../components/Exercise";
@@ -9,7 +9,7 @@ interface Props {
   };
 }
 
-const Scene = (props: Props) => {
+const Scene = (props: Props): ReactElement => {
   return (
     <Switch>
       <Route exact path={`${props.match.path}/`} component={Exercises} />

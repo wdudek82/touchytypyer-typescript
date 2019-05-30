@@ -160,7 +160,9 @@ const mapDispatchToProps = {
   setTypedText: (text: string) => ({ type: SET_TYPED_TEXT, text }),
 };
 
-export default connect(
+const connectStore = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Exercise);
+);
+
+export default connectStore(Exercise);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components/macro";
 import ExercisesScene from "pages/Exercises/Scene";
@@ -23,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const renderRoutes = () => (
+const renderRoutes = (): ReactNode => (
   <Switch>
     <Redirect exact path="/" to="/exercises" />
     <Route path="/exercises" component={ExercisesScene} />
