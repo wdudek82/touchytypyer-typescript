@@ -13,7 +13,7 @@ const Exercises = (props: CompProps): React.ReactElement => {
   const renderExercises = (): React.ReactElement[] => {
     return props.exercisesState.exercises.map((exercise) => (
       <li key={exercise.id}>
-        <Link to={{ pathname: `/exercise/${exercise.id}`, state: exercise }}>
+        <Link to={{ pathname: `/exercises/${exercise.id}`, state: exercise }}>
           {exercise.title}
         </Link>
       </li>

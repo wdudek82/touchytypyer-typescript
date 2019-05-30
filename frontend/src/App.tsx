@@ -1,8 +1,7 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components/macro";
-import Exercises from "./components/Exercises";
-import Exercise from "./components/Exercise";
+import ExercisesScene from "pages/Exercises/Scene";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -24,6 +23,13 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+const renderRoutes = () => (
+  <Switch>
+    <Redirect exact path="/" to="/exercises" />
+    <Route path="/exercises" component={ExercisesScene} />
+  </Switch>
+);
+
 const App = (): React.ReactElement => {
   return (
     <div className="App">
@@ -32,10 +38,7 @@ const App = (): React.ReactElement => {
         New TouchyTyper!
       </h1>
 
-      <Switch>
-        <Route path="/" exact component={Exercises} />
-        <Route path="/exercise/:id" component={Exercise} />
-      </Switch>
+      {renderRoutes()}
     </div>
   );
 };
