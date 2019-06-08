@@ -1,0 +1,13 @@
+.error {
+  color: #f00;
+  font-size: 12px;
+}
+
+.field {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.field.error {
+  border-color: red;
+}

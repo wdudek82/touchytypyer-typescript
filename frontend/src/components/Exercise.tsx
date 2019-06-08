@@ -6,7 +6,11 @@ import styled from "styled-components/macro";
 
 import { SET_TYPED_TEXT } from "store/actions/types";
 import { ExerciseItem, ExercisesState } from "types/exercises";
+import { WithModalProps } from "context/modal/Context";
+import { Icon } from "antd";
+import withModal from "context/modal";
 import Line from "./TextFragments/Line";
+import AddOrUpdateExerciseModal from "./AddOrUpdateExerciseModal";
 
 const MainInput = styled.input.attrs({
   type: "text",
@@ -53,7 +57,7 @@ interface DispatchProps {
   setTypedText: (text: string) => void;
 }
 
-type ComProps = RouterProps & MappedProps & DispatchProps;
+type ComProps = RouterProps & MappedProps & DispatchProps & WithModalProps;
 
 class Exercise extends Component<ComProps> {
   public constructor(props: ComProps) {
@@ -81,7 +85,7 @@ class Exercise extends Component<ComProps> {
 
   private renderLines = (): React.ReactElement[] => {
     const { textTypedByUser } = this.props;
-    const exercise = { id: 0, title: "Foo", text: "Bar" };
+    const exercise = { id: 0, title: "AddOrUpdateExerciseModal", text: "Bar" };
     let totalLength = 0;
 
     return this.splitTextToLines().map((line, ind) => {
@@ -113,6 +117,12 @@ class Exercise extends Component<ComProps> {
     this.props.setTypedText(e.currentTarget.value);
   };
 
+  private onEdit = (): void => {
+    this.props.showModal(AddOrUpdateExerciseModal, {
+      onCancel: (): void => this.props.hideModal(),
+    });
+  };
+
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   public render(): React.ReactElement {
@@ -122,7 +132,10 @@ class Exercise extends Component<ComProps> {
     return (
       <section>
         <Link to="/">Go Back</Link>
-        <h2>{title}</h2>
+
+        <h2>
+          {title} <Icon type="edit" onClick={this.onEdit} className="text-sm" />
+        </h2>
 
         <MainInput
           ref={this.inputRef}
@@ -165,4 +178,4 @@ const connectStore = connect(
   mapDispatchToProps,
 );
 
-export default connectStore(Exercise);
+export default connectStore(withModal(Exercise));

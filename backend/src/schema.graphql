@@ -1,0 +1,31 @@
+schema {
+  query: Query
+}
+
+enum UserType {
+  USER
+  ADMIN
+}
+
+type User {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  nickname: String!
+  type: UserType!
+}
+
+type Exercise {
+  id: ID!
+  author: User!
+  title: String!
+  text: String!
+  isPublic: Boolean!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Query {
+  exercises: [Exercise]!
+  exercise(id: ID!): Exercise!
+}

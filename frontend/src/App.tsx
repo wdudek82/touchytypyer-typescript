@@ -2,6 +2,10 @@ import React, { ReactNode } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components/macro";
 import ExercisesScene from "pages/Exercises/Scene";
+import FormikSandbox from "./components/FormikSandbox/FormikSandbox";
+import ModalProvider from "./context/modal/Provider";
+import "antd/dist/antd.css";
+import "theme/index.css";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -23,23 +27,36 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const renderRoutes = (): ReactNode => (
-  <Switch>
-    <Redirect exact path="/" to="/exercises" />
-    <Route path="/exercises" component={ExercisesScene} />
-  </Switch>
-);
-
-const App = (): React.ReactElement => {
+const renderRoutes = (): ReactNode => {
   return (
-    <div className="App">
-      <GlobalStyles />
+    <>
       <h1 style={{ textAlign: "center", margin: "2rem 0 1rem" }}>
         New TouchyTyper!
       </h1>
 
-      {renderRoutes()}
-    </div>
+      <Switch>
+        <Switch>
+          <Redirect exact path="/" to="/exercises" />
+          <Route path="/exercises" component={ExercisesScene} />
+        </Switch>
+      </Switch>
+    </>
+  );
+};
+
+const App = (): React.ReactElement => {
+  return (
+    <ModalProvider>
+      <div className="App">
+        <GlobalStyles />
+
+        <Switch>
+          <Route path="/sandbox" component={FormikSandbox} />
+
+          {renderRoutes()}
+        </Switch>
+      </div>
+    </ModalProvider>
   );
 };
 

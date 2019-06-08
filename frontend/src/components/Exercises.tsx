@@ -2,12 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { ExercisesState } from "../types/exercises";
+import { WithModalProps } from "../context/modal/Context";
 
 interface StateProps {
   exercisesState: ExercisesState;
 }
 
-type CompProps = {} & StateProps;
+type CompProps = {} & StateProps & WithModalProps;
 
 const Exercises = (props: CompProps): React.ReactElement => {
   const renderExercises = (): React.ReactElement[] => {
