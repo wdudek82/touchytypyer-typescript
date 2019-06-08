@@ -1,6 +1,6 @@
 export enum UserType {
-  USER,
-  ADMIN,
+  USER = "USER",
+  ADMIN = "ADMIN",
 }
 
 export interface User {
@@ -8,6 +8,7 @@ export interface User {
   firstName: string;
   lastName: string;
   nickname: string;
+  email: string;
   type: UserType;
 }
 

@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo, Source } from "graphql";
+import { GraphQLResolveInfo } from "graphql";
 import { Exercise } from "../types";
 import { Context } from "graphql-yoga/dist/types";
 import { MyContext } from "../types/graphql-yoga-types";
@@ -8,8 +8,20 @@ interface Args {
 }
 
 export default {
+  users(parent: {}, args: {}, { db }: MyContext, info: GraphQLResolveInfo) {
+    return db.users;
+  },
+  user(parent: {}, args: Args, { db }: MyContext, info: GraphQLResolveInfo) {
+    const userFound = db.users.find((user) => user.id === args.id);
+
+    if (!userFound) {
+      throw new Error("User not found");
+    }
+
+    return userFound;
+  },
   exercise(
-    parent: Source,
+    parent: {},
     args: Args,
     { db }: MyContext,
     info: GraphQLResolveInfo,
@@ -24,12 +36,7 @@ export default {
 
     return exerciseFound;
   },
-  exercises(
-    parent: Source,
-    args: Args,
-    { db }: Context,
-    info: GraphQLResolveInfo,
-  ) {
+  exercises(parent: {}, args: {}, { db }: Context, info: GraphQLResolveInfo) {
     return db.exercises;
   },
 };

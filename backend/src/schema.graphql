@@ -12,7 +12,9 @@ type User {
   firstName: String!
   lastName: String!
   nickname: String!
+  email: String!
   type: UserType!
+  exercises: [Exercise!]!
 }
 
 type Exercise {
@@ -26,6 +28,8 @@ type Exercise {
 }
 
 type Query {
-  exercises: [Exercise]!
+  users: [User!]!
+  user(id: ID!): User!
+  exercises: [Exercise!]!
   exercise(id: ID!): Exercise!
 }

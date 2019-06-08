@@ -6,6 +6,7 @@ const users: User[] = [
     firstName: "Wojtek",
     lastName: "Dudek",
     nickname: "Neevor",
+    email: "neevor@testing.com",
     type: UserType.ADMIN,
   },
   {
@@ -13,6 +14,7 @@ const users: User[] = [
     firstName: "John",
     lastName: "Snow",
     nickname: "Snow",
+    email: "john.snow@testing.com",
     type: UserType.USER,
   },
 ];
@@ -42,7 +44,7 @@ const exercises: Exercise[] = [
   },
   {
     id: "8723987",
-    author: "1",
+    author: "2",
     title: "Accusantium consequuntur",
     text:
       "Accusantium consequuntur doloremque facilis incidunt sed unde. Alias dolorem fuga ipsum itaque optio quae\n" +
