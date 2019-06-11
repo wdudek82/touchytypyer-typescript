@@ -33,3 +33,33 @@ type Query {
   exercises: [Exercise!]!
   exercise(id: ID!): Exercise!
 }
+
+type Mutation {
+  createUser(data: CreateUserInput!): User!
+  updateUser(id: ID!, data: UpdateUserInput!): User!
+  createExercise(data: CreateExerciseInput!): Exercise!
+  updateExercise(id: ID!, data: UpdateExerciseInput!): Exercise!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  nickname: String!
+  email: String!
+  type: UserType!
+}
+
+input UpdateUserInput {
+  # finish update user input
+}
+
+input CreateExerciseInput {
+  author: ID!
+  title: String!
+  text: String!
+  isPublic: Boolean!
+}
+
+input UpdateExerciseInput {
+  # finish update exercise input
+}
