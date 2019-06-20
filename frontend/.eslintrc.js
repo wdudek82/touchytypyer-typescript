@@ -7,6 +7,8 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   extends: [
     "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
     "plugin:jsx-a11y/recommended",
     "react-app",
     "plugin:prettier/recommended",
@@ -53,7 +55,7 @@ module.exports = {
     "arrow-body-style": 0,
 
     /* Stylistic */
-    indent: ["error", 2, { SwitchCase: 1 }],
+    // indent: ["error", 2, { SwitchCase: 1 }],
     quotes: ["error", "double", { avoidEscape: true }],
     "no-underscore-dangle": 0,
     "object-curly-newline": ["error", { consistent: true }],
@@ -73,7 +75,7 @@ module.exports = {
     "space-before-function-paren": 0,
 
     /* Stylistic TypeScript */
-    "@typescript-eslint/indent": ["error", 2],
+    // "@typescript-eslint/indent": ["error", 2],
 
     /* Variables */
     "no-unused-vars": [

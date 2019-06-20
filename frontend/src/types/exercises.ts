@@ -1,7 +1,7 @@
 export interface ExerciseItem {
   id: number;
   title: string;
-  text: string;
+  body: string;
 }
 
 export interface ExercisesState {

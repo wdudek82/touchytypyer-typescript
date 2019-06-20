@@ -1,65 +1,65 @@
-schema {
-  query: Query
-}
-
-enum UserType {
-  USER
-  ADMIN
-}
-
-type User {
-  id: ID!
-  firstName: String!
-  lastName: String!
-  nickname: String!
-  email: String!
-  type: UserType!
-  exercises: [Exercise!]!
-}
-
-type Exercise {
-  id: ID!
-  author: User!
-  title: String!
-  text: String!
-  isPublic: Boolean!
-  createdAt: String!
-  updatedAt: String!
-}
-
-type Query {
-  users: [User!]!
-  user(id: ID!): User!
-  exercises: [Exercise!]!
-  exercise(id: ID!): Exercise!
-}
-
-type Mutation {
-  createUser(data: CreateUserInput!): User!
-  updateUser(id: ID!, data: UpdateUserInput!): User!
-  createExercise(data: CreateExerciseInput!): Exercise!
-  updateExercise(id: ID!, data: UpdateExerciseInput!): Exercise!
-}
-
-input CreateUserInput {
-  firstName: String!
-  lastName: String!
-  nickname: String!
-  email: String!
-  type: UserType!
-}
-
-input UpdateUserInput {
-  # finish update user input
-}
-
-input CreateExerciseInput {
-  author: ID!
-  title: String!
-  text: String!
-  isPublic: Boolean!
-}
-
-input UpdateExerciseInput {
-  # finish update exercise input
-}
+#schema {
+#  query: Query
+#}
+#
+#enum UserRole {
+#  USER
+#  ADMIN
+#}
+#
+#type User {
+#  id: ID!
+#  firstName: String!
+#  lastName: String!
+#  nickname: String!
+#  email: String!
+#  type: UserRole!
+#  exercises: [Exercise!]!
+#}
+#
+#type Exercise {
+#  id: ID!
+#  author: User!
+#  title: String!
+#  text: String!
+#  isPublic: Boolean!
+#  createdAt: String!
+#  updatedAt: String!
+#}
+#
+#type Query {
+#  users: [User!]!
+#  user(id: ID!): User!
+#  exercises: [Exercise!]!
+#  exercise(id: ID!): Exercise!
+#}
+#
+#type Mutation {
+#  createUser(data: CreateUserInput!): User!
+#  updateUser(id: ID!, data: UpdateUserInput!): User!
+#  createExercise(data: CreateExerciseInput!): Exercise!
+#  updateExercise(id: ID!, data: UpdateExerciseInput!): Exercise!
+#}
+#
+#input CreateUserInput {
+#  firstName: String!
+#  lastName: String!
+#  nickname: String!
+#  email: String!
+#  type: UserRole!
+#}
+#
+#input UpdateUserInput {
+#  # finish update user input
+#}
+#
+#input CreateExerciseInput {
+#  author: ID!
+#  title: String!
+#  text: String!
+#  isPublic: Boolean!
+#}
+#
+#input UpdateExerciseInput {
+#  # finish update exercise input
+#}

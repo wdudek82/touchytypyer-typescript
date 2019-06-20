@@ -1,13 +1,11 @@
-import React, { BaseSyntheticEvent, Component } from "react";
+import React, { BaseSyntheticEvent, Component, ReactElement } from "react";
 import { Link, match } from "react-router-dom";
-import hash from "object-hash";
 import { connect } from "react-redux";
 import styled from "styled-components/macro";
 
 import { SET_TYPED_TEXT } from "store/actions/types";
 import { ExerciseItem, ExercisesState } from "types/exercises";
 import { WithModalProps } from "context/modal/Context";
-import { Icon } from "antd";
 import withModal from "context/modal";
 import Line from "./TextFragments/Line";
 import AddOrUpdateExerciseModal from "./AddOrUpdateExerciseModal";
@@ -79,38 +77,41 @@ class Exercise extends Component<ComProps> {
 
   private splitTextToLines = (): string[] => {
     const re = /[\w\W]{1,45}[.!?\s]/g;
-    const normalizedText = this.props.exercise.text.replace(/\s+/g, " ");
+    const normalizedText = this.props.exercise.body.replace(/\s+/g, " ");
     return normalizedText.match(re) || [];
   };
 
-  private renderLines = (): React.ReactElement[] => {
+  private renderLines = (): ReactElement[] => {
     const { textTypedByUser } = this.props;
     const exercise = { id: 0, title: "AddOrUpdateExerciseModal", text: "Bar" };
     let totalLength = 0;
 
-    return this.splitTextToLines().map((line, ind) => {
-      const key = hash(`${exercise.id}${ind}${line}`);
-      const typedLineText = textTypedByUser.slice(
-        totalLength,
-        totalLength + line.length,
-      );
+    return this.splitTextToLines().map(
+      (line): ReactElement => {
+        const key = `${exercise.id}`;
+        const typedLineText = textTypedByUser.slice(
+          totalLength,
+          totalLength + line.length,
+        );
 
-      const isCurrent =
-        textTypedByUser.length >= totalLength &&
-        textTypedByUser.length <= totalLength + line.length - 1;
+        const isCurrent =
+          textTypedByUser.length >= totalLength &&
+          textTypedByUser.length <= totalLength + line.length - 1;
 
-      totalLength += line.length;
+        totalLength += line.length;
 
-      return (
-        <Line
-          key={key}
-          lineKey={key}
-          lineText={line}
-          typedLineText={typedLineText}
-          isCurrentLine={isCurrent}
-        />
-      );
-    });
+        console.log("[Exercise] line:", line);
+        return (
+          <Line
+            key={key}
+            lineKey={key}
+            lineText={line}
+            typedLineText={typedLineText}
+            isCurrentLine={isCurrent}
+          />
+        );
+      },
+    );
   };
 
   private handleOnChange = (e: BaseSyntheticEvent): void => {
@@ -125,7 +126,7 @@ class Exercise extends Component<ComProps> {
 
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
-  public render(): React.ReactElement {
+  public render(): ReactElement {
     const { title } = this.props.exercise;
     const { textTypedByUser } = this.props;
 
@@ -133,9 +134,7 @@ class Exercise extends Component<ComProps> {
       <section>
         <Link to="/">Go Back</Link>
 
-        <h2>
-          {title} <Icon type="edit" onClick={this.onEdit} className="text-sm" />
-        </h2>
+        <h2>{title}</h2>
 
         <MainInput
           ref={this.inputRef}
@@ -160,7 +159,7 @@ function mapStateToProps(state: StateProps, comProps: ComProps): MappedProps {
   );
 
   if (!exercise) {
-    exercise = { id: -1, title: "Exercise Not found", text: "None" };
+    exercise = { id: -1, title: "Exercise Not found", body: "None" };
   }
 
   return {

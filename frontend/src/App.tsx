@@ -2,9 +2,7 @@ import React, { ReactNode } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components/macro";
 import ExercisesScene from "pages/Exercises/Scene";
-import FormikSandbox from "./components/FormikSandbox/FormikSandbox";
 import ModalProvider from "./context/modal/Provider";
-import "antd/dist/antd.css";
 import "theme/index.css";
 
 const GlobalStyles = createGlobalStyle`
@@ -50,11 +48,7 @@ const App = (): React.ReactElement => {
       <div className="App">
         <GlobalStyles />
 
-        <Switch>
-          <Route path="/sandbox" component={FormikSandbox} />
-
-          {renderRoutes()}
-        </Switch>
+        {renderRoutes()}
       </div>
     </ModalProvider>
   );

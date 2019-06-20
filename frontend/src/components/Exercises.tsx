@@ -1,24 +1,49 @@
-import React from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { ExercisesState } from "../types/exercises";
+import { withApollo, WithApolloClient } from "react-apollo";
+import { ApolloQueryResult } from "apollo-client";
+import { ExerciseItem, ExercisesState } from "../types/exercises";
 import { WithModalProps } from "../context/modal/Context";
+import { GetExercisesData, GetExercisesQuery } from "./queries";
 
 interface StateProps {
   exercisesState: ExercisesState;
 }
 
-type CompProps = {} & StateProps & WithModalProps;
+type CompProps = WithApolloClient<{} & StateProps & WithModalProps>;
 
 const Exercises = (props: CompProps): React.ReactElement => {
-  const renderExercises = (): React.ReactElement[] => {
-    return props.exercisesState.exercises.map((exercise) => (
-      <li key={exercise.id}>
-        <Link to={{ pathname: `/exercises/${exercise.id}`, state: exercise }}>
-          {exercise.title}
-        </Link>
-      </li>
-    ));
+  const [exercises, setExercises] = useState();
+
+  const getExercises = async (): Promise<ApolloQueryResult<GetExercisesData>> => {
+    const res = await props.client.query<GetExercisesData>({
+      query: GetExercisesQuery,
+    });
+
+    setExercises(res.data.exercises);
+
+    console.log(res);
+
+    return res;
+  };
+
+  useEffect(() => {
+    getExercises();
+  }, []);
+
+  const renderExercises = (): ReactElement | ReactElement[] => {
+    if (!exercises) return <div>Loading...</div>;
+
+    return exercises.map(
+      (exercise: ExerciseItem): ReactElement => (
+        <li key={exercise.id}>
+          <Link to={{ pathname: `/exercises/${exercise.id}`, state: exercise }}>
+            {exercise.title}
+          </Link>
+        </li>
+      ),
+    );
   };
 
   return (
@@ -35,4 +60,4 @@ function mapStateToProps(state: StateProps): StateProps {
   };
 }
 
-export default connect(mapStateToProps)(Exercises);
+export default withApollo(connect(mapStateToProps)(Exercises));

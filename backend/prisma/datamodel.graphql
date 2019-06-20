@@ -1,0 +1,24 @@
+enum UserRole {
+    USER
+    ADMIN
+}
+
+type User @db(name: "users") {
+    id: ID! @id
+    name: String!
+    email: String! @unique
+    role: UserRole!
+    exercises: [Exercise!]! @relation(name: "ExerciseToUser", onDelete: CASCADE)
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+}
+
+type Exercise @db(name: "exercises") {
+    id: ID! @id
+    author: User! @relation(name: "ExerciseToUser", onDelete: SET_NULL)
+    title: String!
+    body: String!
+    isPublic: Boolean!
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+}

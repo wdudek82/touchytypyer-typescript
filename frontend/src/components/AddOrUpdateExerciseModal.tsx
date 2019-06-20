@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Modal } from "antd";
 
 interface Props {
   onCancel: () => void;
@@ -15,16 +14,17 @@ class AddOrUpdateExerciseModal extends Component<Props, State> {
   public render() {
     return (
       <div>
-        <Modal
-          title="Basic Modal"
-          visible={true}
-          onOk={this.props.onCancel}
-          onCancel={this.props.onCancel}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
+        Foo
+        {/*<Modal*/}
+        {/*  title="Basic Modal"*/}
+        {/*  visible={true}*/}
+        {/*  onOk={this.props.onCancel}*/}
+        {/*  onCancel={this.props.onCancel}*/}
+        {/*>*/}
+        {/*  <p>Some contents...</p>*/}
+        {/*  <p>Some contents...</p>*/}
+        {/*  <p>Some contents...</p>*/}
+        {/*</Modal>*/}
       </div>
     );
   }
