@@ -1,36 +1,32 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withApollo, WithApolloClient } from "react-apollo";
 import { ApolloQueryResult } from "apollo-client";
-import { ExerciseItem, ExercisesState } from "../types/exercises";
-import { WithModalProps } from "../context/modal/Context";
+import { ExerciseItem } from "types/exercises";
+import { WithModalProps } from "context/modal/Context";
 import { GetExercisesData, GetExercisesQuery } from "./queries";
+import "./styles.scss";
 
-interface StateProps {
-  exercisesState: ExercisesState;
-}
+type Props = WithApolloClient<WithModalProps>;
 
-type CompProps = WithApolloClient<{} & StateProps & WithModalProps>;
-
-const Exercises = (props: CompProps): React.ReactElement => {
+const Exercises = (props: Props): ReactElement => {
   const [exercises, setExercises] = useState();
 
-  const getExercises = async (): Promise<ApolloQueryResult<GetExercisesData>> => {
+  const loadExercises = async (): Promise<ApolloQueryResult<GetExercisesData>> => {
     const res = await props.client.query<GetExercisesData>({
       query: GetExercisesQuery,
     });
 
     setExercises(res.data.exercises);
 
-    console.log(res);
+    console.log("[Exercises] exercises", res.data.exercises);
 
     return res;
   };
 
   useEffect(() => {
-    getExercises();
-  }, []);
+    loadExercises();
+  });
 
   const renderExercises = (): ReactElement | ReactElement[] => {
     if (!exercises) return <div>Loading...</div>;
@@ -38,7 +34,7 @@ const Exercises = (props: CompProps): React.ReactElement => {
     return exercises.map(
       (exercise: ExerciseItem): ReactElement => (
         <li key={exercise.id}>
-          <Link to={{ pathname: `/exercises/${exercise.id}`, state: exercise }}>
+          <Link to={{ pathname: `/exercises/${exercise.id}` }}>
             {exercise.title}
           </Link>
         </li>
@@ -47,17 +43,11 @@ const Exercises = (props: CompProps): React.ReactElement => {
   };
 
   return (
-    <div>
+    <div className="exercises-page">
       <h2>Exercises</h2>
       <ul>{renderExercises()}</ul>
     </div>
   );
 };
 
-function mapStateToProps(state: StateProps): StateProps {
-  return {
-    exercisesState: state.exercisesState,
-  };
-}
-
-export default withApollo(connect(mapStateToProps)(Exercises));
+export default withApollo(Exercises);

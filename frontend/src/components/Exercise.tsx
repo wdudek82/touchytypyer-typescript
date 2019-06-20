@@ -1,70 +1,36 @@
 import React, { BaseSyntheticEvent, Component, ReactElement } from "react";
-import { Link, match } from "react-router-dom";
-import { connect } from "react-redux";
-import styled from "styled-components/macro";
-
-import { SET_TYPED_TEXT } from "store/actions/types";
-import { ExerciseItem, ExercisesState } from "types/exercises";
-import { WithModalProps } from "context/modal/Context";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { compose, withApollo, WithApolloClient } from "react-apollo";
 import withModal from "context/modal";
-import Line from "./TextFragments/Line";
+import hash from "object-hash";
+
+import { ExerciseItem } from "types/exercises";
+import { WithModalProps } from "context/modal/Context";
+import { Line } from "./TextFragments";
 import AddOrUpdateExerciseModal from "./AddOrUpdateExerciseModal";
+import { GetExerciseData, GetExerciseQuery, GetExerciseVariables } from "./queries";
 
-const MainInput = styled.input.attrs({
-  type: "text",
-})`
-  color: transparent;
-  background: transparent;
-  width: 0;
-  height: 0;
-  border: none;
-  outline: none;
-`;
+type Props = WithApolloClient<RouteComponentProps<{ exerciseId: string }> & WithModalProps>;
 
-const ExerciseContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  text-align: center;
-`;
-
-const StyledExercise = styled.article`
-  background: #55b5ff;
-  border-radius: 5px;
-  padding: 2rem;
-`;
-
-interface RouterParams {
-  id: string;
-}
-
-interface RouterProps {
-  match: match<RouterParams>;
-}
-
-interface StateProps {
-  exercisesState: ExercisesState;
-}
-
-interface MappedProps {
-  exercise: ExerciseItem;
+interface State {
   textTypedByUser: string;
+  exercise: ExerciseItem;
 }
 
-interface DispatchProps {
-  setTypedText: (text: string) => void;
-}
-
-type ComProps = RouterProps & MappedProps & DispatchProps & WithModalProps;
-
-class Exercise extends Component<ComProps> {
-  public constructor(props: ComProps) {
+class Exercise extends Component<Props, State> {
+  public constructor(props: Props) {
     super(props);
     this.inputRef = React.createRef();
+    this.state = {
+      textTypedByUser: "",
+      exercise: { id: "", title: "", body: "" },
+    };
   }
 
   public componentDidMount(): void {
     this.refocusMainInput();
+
+    this.loadExercise();
   }
 
   private refocusMainInput = (): void => {
@@ -75,20 +41,40 @@ class Exercise extends Component<ComProps> {
     }
   };
 
+  private loadExercise = async () => {
+    const res = await this.props.client.query<GetExerciseData,
+      GetExerciseVariables>({
+      query: GetExerciseQuery,
+      variables: {
+        where: {
+          id: this.props.match.params.exerciseId,
+        },
+      },
+    });
+
+    console.log("[Exercise] exercise:", res.data.exercise);
+
+    this.setState({
+      exercise: res.data.exercise,
+    });
+  };
+
   private splitTextToLines = (): string[] => {
+    if (!this.state.exercise) return [];
+
     const re = /[\w\W]{1,45}[.!?\s]/g;
-    const normalizedText = this.props.exercise.body.replace(/\s+/g, " ");
+    const normalizedText = this.state.exercise.body.replace(/\s+/g, " ");
     return normalizedText.match(re) || [];
   };
 
   private renderLines = (): ReactElement[] => {
-    const { textTypedByUser } = this.props;
+    const { textTypedByUser } = this.state;
     const exercise = { id: 0, title: "AddOrUpdateExerciseModal", text: "Bar" };
     let totalLength = 0;
 
     return this.splitTextToLines().map(
-      (line): ReactElement => {
-        const key = `${exercise.id}`;
+      (line, ind): ReactElement => {
+        const key = hash(`${exercise.id}${ind}${line}`);
         const typedLineText = textTypedByUser.slice(
           totalLength,
           totalLength + line.length,
@@ -100,7 +86,6 @@ class Exercise extends Component<ComProps> {
 
         totalLength += line.length;
 
-        console.log("[Exercise] line:", line);
         return (
           <Line
             key={key}
@@ -115,7 +100,9 @@ class Exercise extends Component<ComProps> {
   };
 
   private handleOnChange = (e: BaseSyntheticEvent): void => {
-    this.props.setTypedText(e.currentTarget.value);
+    const textTypedByUser = e.currentTarget.value;
+
+    this.setState(() => ({ textTypedByUser }));
   };
 
   private onEdit = (): void => {
@@ -127,54 +114,33 @@ class Exercise extends Component<ComProps> {
   private readonly inputRef: React.RefObject<HTMLInputElement>;
 
   public render(): ReactElement {
-    const { title } = this.props.exercise;
-    const { textTypedByUser } = this.props;
+    const { textTypedByUser } = this.state;
+    const { title } = this.state.exercise;
 
     return (
-      <section>
+      <div className="exercise__page">
         <Link to="/">Go Back</Link>
 
         <h2>{title}</h2>
 
-        <MainInput
+        <input
+          className="exercise__main-input"
+          type="text"
           ref={this.inputRef}
           value={textTypedByUser}
           onChange={this.handleOnChange}
           onBlur={this.refocusMainInput}
         />
 
-        <ExerciseContainer>
-          <StyledExercise>{this.renderLines()}</StyledExercise>
-        </ExerciseContainer>
-
-        <section />
-      </section>
+        <section className="exercise exercise__container">
+          <div className="exercise exercise__item">{this.renderLines()}</div>
+        </section>
+      </div>
     );
   }
 }
 
-function mapStateToProps(state: StateProps, comProps: ComProps): MappedProps {
-  let exercise = state.exercisesState.exercises.find(
-    (e: ExerciseItem) => `${e.id}` === comProps.match.params.id,
-  );
-
-  if (!exercise) {
-    exercise = { id: -1, title: "Exercise Not found", body: "None" };
-  }
-
-  return {
-    exercise,
-    textTypedByUser: state.exercisesState.textTypedByUser,
-  };
-}
-
-const mapDispatchToProps = {
-  setTypedText: (text: string) => ({ type: SET_TYPED_TEXT, text }),
-};
-
-const connectStore = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-);
-
-export default connectStore(withModal(Exercise));
+export default compose(
+  withApollo,
+  withModal,
+)(Exercise);
