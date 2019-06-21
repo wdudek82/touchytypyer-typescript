@@ -39,7 +39,7 @@ const Exercise = (props: Props): ReactElement => {
       />
 
       <section className="exercise__container">
-        <div className="exercise__item">{renderLines(exercise)}</div>
+        <div className="exercise__text">{renderLines(exercise)}</div>
       </section>
     </Fragment>
   );

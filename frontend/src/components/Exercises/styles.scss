@@ -1,16 +1,16 @@
 .exercise__page {
   .exercise {
-    &__item {
-      background: #55b5ff;
-      border-radius: 5px;
-      padding: 2rem;
-    }
-
     &__container {
       display: flex;
       justify-content: center;
       width: 100%;
       text-align: center;
+    }
+
+    &__text {
+      background: #ccaaff;
+      border-radius: 5px;
+      padding: 2rem;
     }
 
     &__main-input {

@@ -1,4 +1,5 @@
 import React, { ReactElement, ReactNode } from "react";
+import "./styles.scss";
 
 interface Props {
   className?: string;

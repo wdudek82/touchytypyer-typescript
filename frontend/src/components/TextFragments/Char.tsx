@@ -6,6 +6,12 @@ const fadeInError = keyframes`
   to { opacity: 0 }
 `;
 
+const blink = keyframes`
+  from { border-color: #5500cc }
+  50% { border-color: #f7e6ff }
+  to { border-color: #5500cc }
+`;
+
 interface StyledCharProps {
   typedChar: string | null;
   isCorrect: boolean;
@@ -32,18 +38,18 @@ const StyledChar = styled.span`
 
   /* Typed character correct w/o fixed mistake */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  p.isCorrect &&
-  css`
+    p.typedChar &&
+    p.isCorrect &&
+    css`
       background: ${p.isMistake ? "#ffffa8" : "#ceffea"};
       color: ${p.isMistake ? "#734000" : "#01401e"};
     `}
 
   /* Typed character was incorrect */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  !p.isCorrect &&
-  css`
+    p.typedChar &&
+    !p.isCorrect &&
+    css`
       background: #ffc3c3;
       color: #6b000c;
       
@@ -57,11 +63,12 @@ const StyledChar = styled.span`
 
   /* Caret */
   ${(p: StyledCharProps) =>
-  p.showCaret &&
-  css`
-      background: #a8d5ff;
-      border-bottom: 3px solid #0077ff;
+    p.showCaret &&
+    css`
+      background: #f7e6ff;
+      border-bottom: 3px solid #5500cc;
       border-radius: 0;
+      animation: ${blink} 1000ms ease-in-out infinite;
     `}
 `;
 

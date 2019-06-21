@@ -5,7 +5,7 @@ interface Props {
 }
 
 const PageContent = (props: Props): ReactElement => {
-  return <div className="page-content">{props.children}</div>;
+  return <div className="page__content">{props.children}</div>;
 };
 
 export default PageContent;

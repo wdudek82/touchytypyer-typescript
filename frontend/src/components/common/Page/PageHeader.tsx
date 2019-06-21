@@ -3,13 +3,11 @@ import Navbar from "ui/Navbar";
 
 const PageHeader = (): ReactElement => {
   return (
-    <div className="page-header">
+    <header className="page__header">
       <Navbar />
 
-      <h1 style={{ textAlign: "center", margin: "2rem 0 1rem" }}>
-        New TouchyTyper! [Header]
-      </h1>
-    </div>
+      <h1>TouchyTyper v2</h1>
+    </header>
   );
 };
 
