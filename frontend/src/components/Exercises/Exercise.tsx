@@ -38,8 +38,8 @@ const Exercise = (props: Props): ReactElement => {
         onBlur={refocusMainInput}
       />
 
-      <section className="exercise exercise__container">
-        <div className="exercise exercise__item">{renderLines(exercise)}</div>
+      <section className="exercise__container">
+        <div className="exercise__item">{renderLines(exercise)}</div>
       </section>
     </Fragment>
   );

@@ -8,7 +8,7 @@ type Props = RouteComponentProps<{ exerciseId: string }>;
 class DetailsPage extends Component<Props> {
   public render(): ReactNode {
     return (
-      <Page>
+      <Page className="page--exercise">
         <PageHeader />
         <PageContent>
           <Exercise exerciseId={this.props.match.params.exerciseId} />

@@ -6,14 +6,12 @@ import "theme/index.scss";
 
 const renderRoutes = (): ReactNode => {
   return (
-    <>
+    <Switch>
       <Switch>
-        <Switch>
-          <Redirect exact path="/" to="/exercises" />
-          <Route path="/exercises" component={ExercisesScene} />
-        </Switch>
+        <Redirect exact path="/" to="/exercises" />
+        <Route path="/exercises" component={ExercisesScene} />
       </Switch>
-    </>
+    </Switch>
   );
 };
 

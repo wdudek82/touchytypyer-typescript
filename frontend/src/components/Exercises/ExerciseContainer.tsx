@@ -11,6 +11,8 @@ import UpdateExerciseModal from "./UpdateExerciseModal/UpdateExerciseModal";
 import { GET_EXERCISE, GetExerciseData } from "./queries";
 import Exercise from "./Exercise";
 
+import "./styles.scss";
+
 interface Props extends WithApolloClient<WithModalProps> {
   exerciseId: string;
 }
@@ -68,7 +70,7 @@ class ExerciseContainer extends Component<Props, State> {
   private handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const textTypedByUser = e.currentTarget.value;
 
-    this.setState(() => ({ textTypedByUser }));
+    this.setState((): State => ({ textTypedByUser }));
   };
 
   private onEdit = (): void => {

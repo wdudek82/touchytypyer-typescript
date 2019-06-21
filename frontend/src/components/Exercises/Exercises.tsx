@@ -4,7 +4,6 @@ import { QueryResult } from "react-apollo";
 import Query from "react-apollo/Query";
 import { ExerciseItem } from "types/exercises";
 import { GET_EXERCISES, GetExercisesData } from "./queries";
-import "./styles.scss";
 
 const Exercises = (props: {}): ReactElement => {
   useEffect(
@@ -46,7 +45,7 @@ const Exercises = (props: {}): ReactElement => {
         }
 
         return (
-          <div className="exercises-page">
+          <div className="exercises">
             <h2>Exercises</h2>
             <ul>{renderExercises(exerciseList)}</ul>
           </div>

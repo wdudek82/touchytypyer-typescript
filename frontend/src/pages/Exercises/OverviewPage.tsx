@@ -10,7 +10,7 @@ type Props = WithModalProps & RouteComponentProps<{ exerciseId: string }>;
 class OverviewPage extends Component<Props> {
   public render(): ReactNode {
     return (
-      <Page className="page--exercises-overview">
+      <Page>
         <PageHeader />
         <PageContent>
           <Exercises />

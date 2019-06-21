@@ -11,4 +11,8 @@ const Page = (props: Props): ReactElement => {
   return <div className={`page ${className}`}>{children}</div>;
 };
 
+Page.defaultProps = {
+  className: "",
+};
+
 export default Page;
