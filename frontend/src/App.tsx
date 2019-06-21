@@ -1,6 +1,7 @@
 import React, { ReactElement, ReactNode } from "react";
 import { Route, Switch } from "react-router-dom";
 import ExercisesScene from "pages/Exercises/Scene";
+import { Page, PageContent, PageHeader } from "./components/common/Page";
 
 import "theme/index.scss";
 
@@ -17,7 +18,14 @@ const renderRoutes = (): ReactNode => {
 };
 
 const App = (): React.ReactElement => {
-  return <div className="App">{renderRoutes()}</div>;
+  return (
+    <div className="App">
+      <Page>
+        <PageHeader />
+        <PageContent>{renderRoutes()}</PageContent>
+      </Page>
+    </div>
+  );
 };
 
 export default App;

@@ -12,6 +12,7 @@
   a {
     text-decoration: none;
     color: #fff;
+    font-weight: 500;
   }
 
   &__logo {
@@ -22,7 +23,7 @@
     }
 
     a {
-      font-weight: 700;
+      font-size: 2rem;
     }
   }
 
@@ -35,16 +36,22 @@
 
   &__menu-item {
     height: 100%;
-    padding: 2rem;
     cursor: pointer;
 
-    .active {
-      color: #ffc200;
-    }
+    a {
+      display: flex;
+      padding: 2rem;
+      height: 100%;
 
-    &:hover,
-    &:focus {
-      background: lighten(#3c0053, 10%);
+      &:hover,
+      &:focus {
+        background: lighten(#3c0053, 5%);
+      }
+
+      &.active {
+        background: lighten(#3c0053, 10%);
+        color: #ffc200;
+      }
     }
   }
 }
