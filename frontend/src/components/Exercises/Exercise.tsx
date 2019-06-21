@@ -11,7 +11,12 @@ interface Props {
 
 const Exercise = (props: Props): ReactElement => {
   const inputRefBis = useRef<HTMLInputElement>(null);
-  const { exercise, textTypedByUser, renderLines, handleOnChange } = props;
+  const {
+    exercise,
+    textTypedByUser,
+    renderLines,
+    handleOnChange,
+  } = props;
 
   const refocusMainInput = (): void => {
     if (inputRefBis && inputRefBis.current) {
@@ -21,7 +26,7 @@ const Exercise = (props: Props): ReactElement => {
 
   useEffect(
     (): void => {
-      document.title = `TouchyTyper | ${exercise.title}`;
+      document.title = `TouchyTyper | ${exercise && exercise.title}`;
       refocusMainInput();
     },
   );
@@ -38,21 +43,14 @@ const Exercise = (props: Props): ReactElement => {
       />
 
       <Animated
-        animationIn="fadeInLeft"
-        animationOut="fadeOutLeft"
+        animationIn="fadeIn"
+        animationOut="fadeOut"
         isVisible
-        animationInDuration={500}
+        animationInDuration={1000}
       >
-        <h2>{exercise.title}</h2>
-      </Animated>
+        <h2>{exercise && exercise.title}</h2>
 
-      <Animated
-        animationIn="fadeInUp"
-        animationOut="fadeOutDown"
-        animationInDuration={500}
-        isVisible
-      >
-        <section className="exercise__field">
+        <section className="exercise__board">
           <div className="exercise__text">{renderLines(exercise)}</div>
         </section>
       </Animated>

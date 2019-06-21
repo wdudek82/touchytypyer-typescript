@@ -1,4 +1,5 @@
 .exercise__page {
+  position: relative;
   width: 780px;
   margin: auto;
 
@@ -8,10 +9,11 @@
     }
 
     &__container {
+      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       width: 100%;
+      min-height: 350px;
       text-align: center;
     }
 
@@ -23,6 +25,8 @@
       background: #ccaaff;
       border-radius: 5px;
       padding: 2rem;
+      max-height: 525px;
+      overflow: auto;
     }
 
     &__main-input {

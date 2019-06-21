@@ -12,6 +12,7 @@ import { GET_EXERCISE, GetExerciseData } from "./queries";
 import Exercise from "./Exercise";
 
 import "./styles.scss";
+import Spinner from "../../ui/Spinner";
 
 interface Props extends WithApolloClient<WithModalProps> {
   exerciseId: string;
@@ -104,8 +105,8 @@ class ExerciseContainer extends Component<Props, State> {
               loading,
               error,
             }: QueryResult<GetExerciseData>): ReactElement => {
-              if (loading) return <div>Loading exercise...</div>;
-              if (error || !data) return <p>ERROR</p>;
+              if (loading) return <Spinner size="md" type="solid" />;
+              if (error || !data) return <p>ERROR: {error && error.message}</p>;
 
               const { textTypedByUser } = this.state;
 

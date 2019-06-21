@@ -1,5 +1,66 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import styled, { css, keyframes } from "styled-components/macro";
+
+interface Props {
+  char: string;
+  typedChar: string | null;
+  showCaret: boolean;
+}
+
+interface State {
+  isMistake: boolean;
+}
+
+class Char extends Component<Props, State> {
+  public readonly state = {
+    isMistake: false,
+  };
+
+  public shouldComponentUpdate(nextProps: Props): boolean {
+    return (
+      this.props.typedChar !== nextProps.typedChar ||
+      this.props.showCaret !== nextProps.showCaret
+    );
+  }
+
+  public componentDidUpdate(prevProps: Props): void {
+    if (this.props.typedChar) {
+      const isCorrect = this.props.char === this.props.typedChar;
+
+      if (!isCorrect && !this.state.isMistake) {
+        this.setState(() => ({
+          isMistake: true,
+        }));
+      }
+    }
+  }
+
+  private renderChar = (char: string): ReactElement | string => {
+    switch (char) {
+      case " ":
+        return <i>&nbsp;</i>;
+      default:
+        return char;
+    }
+  };
+
+  public render(): React.ReactElement {
+    const { char, typedChar, showCaret } = this.props;
+
+    return (
+      <StyledChar
+        typedChar={typedChar}
+        showCaret={showCaret}
+        isCorrect={char === typedChar}
+        isMistake={this.state.isMistake}
+      >
+        {this.renderChar(char)}
+      </StyledChar>
+    );
+  }
+}
+
+export default Char;
 
 const fadeInError = keyframes`
   from { opacity: 1 }
@@ -71,55 +132,3 @@ const StyledChar = styled.span`
       animation: ${blink} 1000ms ease-in-out infinite;
     `}
 `;
-
-interface Props {
-  char: string;
-  typedChar: string | null;
-  showCaret: boolean;
-}
-
-interface State {
-  isMistake: boolean;
-}
-
-class Char extends Component<Props, State> {
-  public readonly state = {
-    isMistake: false,
-  };
-
-  public shouldComponentUpdate(nextProps: Props): boolean {
-    return (
-      this.props.typedChar !== nextProps.typedChar ||
-      this.props.showCaret !== nextProps.showCaret
-    );
-  }
-
-  public componentDidUpdate(prevProps: Props): void {
-    if (this.props.typedChar) {
-      const isCorrect: boolean = this.props.char === this.props.typedChar;
-
-      if (!isCorrect && !this.state.isMistake) {
-        this.setState(() => ({
-          isMistake: true,
-        }));
-      }
-    }
-  }
-
-  public render(): React.ReactElement {
-    const { char, typedChar, showCaret } = this.props;
-
-    return (
-      <StyledChar
-        typedChar={typedChar}
-        showCaret={showCaret}
-        isCorrect={char === typedChar}
-        isMistake={this.state.isMistake}
-      >
-        {char === " " ? <i>&nbsp;</i> : char}
-      </StyledChar>
-    );
-  }
-}
-
-export default Char;

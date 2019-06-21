@@ -1,16 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import hash from "object-hash";
 import styled from "styled-components/macro";
 import Token from "./Token";
-
-const StyledLine = styled.div`
-  display: flex;
-  border-bottom: 1px solid #fff;
-
-  &:not(:last-child) {
-    margin-bottom: 1.2rem;
-  }
-`;
 
 interface Props {
   lineKey: string;
@@ -34,31 +25,33 @@ class Line extends Component<Props, {}> {
     let totalLength = 0;
 
     if (originalTokens) {
-      return originalTokens.map((originalToken: string, ind) => {
-        const key = hash(`${this.props.lineKey}${ind}${originalToken}`);
+      return originalTokens.map(
+        (originalToken: string, ind): ReactElement => {
+          const key = hash(`${this.props.lineKey}${ind}${originalToken}`);
 
-        const typedToken = typedLineText.slice(
-          totalLength,
-          totalLength + originalToken.length,
-        );
+          const typedToken = typedLineText.slice(
+            totalLength,
+            totalLength + originalToken.length,
+          );
 
-        const isCurrent =
-          typedLineText.length >= totalLength &&
-          typedLineText.length <= totalLength + originalToken.length - 1 &&
-          isCurrentLine;
+          const isCurrent =
+            typedLineText.length >= totalLength &&
+            typedLineText.length <= totalLength + originalToken.length - 1 &&
+            isCurrentLine;
 
-        totalLength += originalToken.length;
+          totalLength += originalToken.length;
 
-        return (
-          <Token
-            key={key}
-            tokenKey={key}
-            originalToken={originalToken}
-            typedToken={typedToken}
-            isCurrentToken={isCurrent}
-          />
-        );
-      });
+          return (
+            <Token
+              key={key}
+              tokenKey={key}
+              originalToken={originalToken}
+              typedToken={typedToken}
+              isCurrentToken={isCurrent}
+            />
+          );
+        },
+      );
     }
 
     return [];
@@ -70,3 +63,12 @@ class Line extends Component<Props, {}> {
 }
 
 export default Line;
+
+const StyledLine = styled.div`
+  display: flex;
+  border-bottom: 1px solid #fff;
+
+  &:not(:last-child) {
+    margin-bottom: 1.2rem;
+  }
+`;
