@@ -1,14 +1,32 @@
-* {
+*, *::after, *::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 html {
   font-size: 10px;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
   font-size: 1.6rem;
-  font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+  background: #fff;
+  color: #3c0053;
+  border: 1px solid #3c0053;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+  font-size: 1.5rem;
+
+  &:hover {
+    background: #3c0053;
+    color: #fff;
+  }
 }

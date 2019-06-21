@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Fragment, ReactElement, useEffect, useRef } from "react";
-import { ExerciseItem } from "../../types/exercises";
+import { ExerciseItem } from "types/exercises";
+import { Animated } from "react-animated-css";
 
 interface Props {
   exercise: ExerciseItem;
@@ -27,8 +28,6 @@ const Exercise = (props: Props): ReactElement => {
 
   return (
     <Fragment>
-      <h2>{exercise.title}</h2>
-
       <input
         className="exercise__main-input"
         type="text"
@@ -38,9 +37,25 @@ const Exercise = (props: Props): ReactElement => {
         onBlur={refocusMainInput}
       />
 
-      <section className="exercise__container">
-        <div className="exercise__text">{renderLines(exercise)}</div>
-      </section>
+      <Animated
+        animationIn="fadeInLeft"
+        animationOut="fadeOutLeft"
+        isVisible
+        animationInDuration={500}
+      >
+        <h2>{exercise.title}</h2>
+      </Animated>
+
+      <Animated
+        animationIn="fadeInUp"
+        animationOut="fadeOutDown"
+        animationInDuration={500}
+        isVisible
+      >
+        <section className="exercise__field">
+          <div className="exercise__text">{renderLines(exercise)}</div>
+        </section>
+      </Animated>
     </Fragment>
   );
 };

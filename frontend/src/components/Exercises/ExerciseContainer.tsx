@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component, Fragment, ReactElement, ReactNode } from "react";
+import React, { ChangeEvent, Component, ReactElement, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Query, QueryResult, WithApolloClient } from "react-apollo";
 import withModal from "context/modal";
@@ -82,40 +82,44 @@ class ExerciseContainer extends Component<Props, State> {
   public render(): ReactNode {
     return (
       <div className="exercise__page">
-        <Link to="/">Go Back</Link>
-        <Query
-          query={GET_EXERCISE}
-          variables={{
-            where: {
-              id: this.props.exerciseId,
-            },
-          }}
-        >
-          {({
-            data,
-            loading,
-            error,
-          }: QueryResult<GetExerciseData>): ReactElement => {
-            if (loading) return <div>Loading exercise...</div>;
-            if (error || !data) return <p>ERROR</p>;
+        <section className="exercise__container">
+          <aside className="exercise__menu">
+            <Link to="/exercises" className="btn">
+              Go Back
+            </Link>
+            <button type="button" onClick={this.onEdit} className="btn">
+              Edit
+            </button>
+          </aside>
+          <Query
+            query={GET_EXERCISE}
+            variables={{
+              where: {
+                id: this.props.exerciseId,
+              },
+            }}
+          >
+            {({
+              data,
+              loading,
+              error,
+            }: QueryResult<GetExerciseData>): ReactElement => {
+              if (loading) return <div>Loading exercise...</div>;
+              if (error || !data) return <p>ERROR</p>;
 
-            const { textTypedByUser } = this.state;
+              const { textTypedByUser } = this.state;
 
-            return (
-              <Fragment>
-                <button type="button" onClick={this.onEdit}>
-                  Edit
-                </button>
+              return (
                 <Exercise
                   exercise={data.exercise}
                   textTypedByUser={textTypedByUser}
                   renderLines={this.renderLines}
                   handleOnChange={this.handleOnChange}
                 />
-              </Fragment>
-            );
-          }}
-        </Query>
+              );
+            }}
+          </Query>
+        </section>
       </div>
     );
   }

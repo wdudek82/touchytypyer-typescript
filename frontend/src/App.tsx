@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import React, { ReactElement, ReactNode } from "react";
+import { Route, Switch } from "react-router-dom";
 import ExercisesScene from "pages/Exercises/Scene";
 
 import "theme/index.scss";
@@ -8,8 +8,9 @@ const renderRoutes = (): ReactNode => {
   return (
     <Switch>
       <Switch>
-        <Redirect exact path="/" to="/exercises" />
+        <Route path="/" exact render={(): ReactElement => <div>Home</div>} />
         <Route path="/exercises" component={ExercisesScene} />
+        <Route path="/about" render={(): ReactElement => <div>About</div>} />
       </Switch>
     </Switch>
   );

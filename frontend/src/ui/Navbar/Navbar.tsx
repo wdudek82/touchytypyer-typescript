@@ -1,21 +1,24 @@
 import React, { ReactElement } from "react";
 import "./Navbar.scss";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = (): ReactElement => {
   return (
     <nav className="main-navbar">
       <aside className="main-navbar__logo">
-        <a href="/">TouchyTyper</a>
+        <Link to="/">TouchyTyper</Link>
       </aside>
       <ul className="main-navbar__menu">
         <li className="main-navbar__menu-item">
-          <a href="/">Home</a>
+          <NavLink exact to="/">
+            Home
+          </NavLink>
         </li>
         <li className="main-navbar__menu-item">
-          <a href="/">Exercises</a>
+          <NavLink to="/exercises">Exercises</NavLink>
         </li>
         <li className="main-navbar__menu-item">
-          <a href="/">About</a>
+          <NavLink to="/about">About</NavLink>
         </li>
       </ul>
     </nav>
