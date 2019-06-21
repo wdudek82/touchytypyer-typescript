@@ -5,13 +5,13 @@ import { ExercisesAction } from "../actions/exercisesActions";
 const initialState: ExercisesState = {
   exercises: [
     {
-      id: 121434,
+      id: "121434",
       title: "Lorem ipsum",
       body:
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus amet blanditiis dicta distinctio ea id impedit, laboriosam maiores maxime numquam optio perspiciatis quaerat sit temporibus totam, ullam voluptatem? Dolor, perferendis?",
     },
     {
-      id: 9754453,
+      id: "9754453",
       title: "Accusamus aliquam",
       body:
         "Accusamus aliquam aspernatur at autem blanditiis dolore dolores enim esse est et excepturi facere hic iste\n" +
@@ -19,7 +19,7 @@ const initialState: ExercisesState = {
         "        voluptatum.",
     },
     {
-      id: 8723987,
+      id: "8723987",
       title: "Accusantium consequuntur",
       body:
         "Accusantium consequuntur doloremque facilis incidunt sed unde. Alias dolorem fuga ipsum itaque optio quae\n" +

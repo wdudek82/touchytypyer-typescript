@@ -1,56 +1,30 @@
-import React, { ReactNode } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { createGlobalStyle } from "styled-components/macro";
+import React, { ReactElement, ReactNode } from "react";
+import { Route, Switch } from "react-router-dom";
 import ExercisesScene from "pages/Exercises/Scene";
-import ModalProvider from "./context/modal/Provider";
-import "theme/index.css";
+import { Page, PageContent, PageHeader } from "./components/common/Page";
 
-const GlobalStyles = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html {
-    font-size: 10px;
-  }
-
-  body {
-    font-size: 1.6rem;
-    font-family: 'Roboto', sans-serif;
-    
-    display: flex;
-    justify-content: center;
-  }
-`;
+import "theme/index.scss";
 
 const renderRoutes = (): ReactNode => {
   return (
-    <>
-      <h1 style={{ textAlign: "center", margin: "2rem 0 1rem" }}>
-        New TouchyTyper!
-      </h1>
-
+    <Switch>
       <Switch>
-        <Switch>
-          <Redirect exact path="/" to="/exercises" />
-          <Route path="/exercises" component={ExercisesScene} />
-        </Switch>
+        <Route path="/" exact render={(): ReactElement => <div>Home</div>} />
+        <Route path="/exercises" component={ExercisesScene} />
+        <Route path="/about" render={(): ReactElement => <div>About</div>} />
       </Switch>
-    </>
+    </Switch>
   );
 };
 
 const App = (): React.ReactElement => {
   return (
-    <ModalProvider>
-      <div className="App">
-        <GlobalStyles />
-
-        {renderRoutes()}
-      </div>
-    </ModalProvider>
+    <div className="App">
+      <Page>
+        <PageHeader />
+        <PageContent>{renderRoutes()}</PageContent>
+      </Page>
+    </div>
   );
 };
 

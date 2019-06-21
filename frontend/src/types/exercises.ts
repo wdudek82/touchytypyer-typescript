@@ -1,5 +1,5 @@
 export interface ExerciseItem {
-  id: number;
+  id: string;
   title: string;
   body: string;
 }

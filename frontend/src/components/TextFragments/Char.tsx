@@ -1,9 +1,76 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 import styled, { css, keyframes } from "styled-components/macro";
+
+interface Props {
+  char: string;
+  typedChar: string | null;
+  showCaret: boolean;
+}
+
+interface State {
+  isMistake: boolean;
+}
+
+class Char extends Component<Props, State> {
+  public readonly state = {
+    isMistake: false,
+  };
+
+  public shouldComponentUpdate(nextProps: Props): boolean {
+    return (
+      this.props.typedChar !== nextProps.typedChar ||
+      this.props.showCaret !== nextProps.showCaret
+    );
+  }
+
+  public componentDidUpdate(prevProps: Props): void {
+    if (this.props.typedChar) {
+      const isCorrect = this.props.char === this.props.typedChar;
+
+      if (!isCorrect && !this.state.isMistake) {
+        this.setState(() => ({
+          isMistake: true,
+        }));
+      }
+    }
+  }
+
+  private renderChar = (char: string): ReactElement | string => {
+    switch (char) {
+      case " ":
+        return <i>&nbsp;</i>;
+      default:
+        return char;
+    }
+  };
+
+  public render(): React.ReactElement {
+    const { char, typedChar, showCaret } = this.props;
+
+    return (
+      <StyledChar
+        typedChar={typedChar}
+        showCaret={showCaret}
+        isCorrect={char === typedChar}
+        isMistake={this.state.isMistake}
+      >
+        {this.renderChar(char)}
+      </StyledChar>
+    );
+  }
+}
+
+export default Char;
 
 const fadeInError = keyframes`
   from { opacity: 1 }
   to { opacity: 0 }
+`;
+
+const blink = keyframes`
+  from { border-color: #5500cc }
+  50% { border-color: #f7e6ff }
+  to { border-color: #5500cc }
 `;
 
 interface StyledCharProps {
@@ -32,18 +99,18 @@ const StyledChar = styled.span`
 
   /* Typed character correct w/o fixed mistake */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  p.isCorrect &&
-  css`
+    p.typedChar &&
+    p.isCorrect &&
+    css`
       background: ${p.isMistake ? "#ffffa8" : "#ceffea"};
       color: ${p.isMistake ? "#734000" : "#01401e"};
     `}
 
   /* Typed character was incorrect */
   ${(p: StyledCharProps) =>
-  p.typedChar &&
-  !p.isCorrect &&
-  css`
+    p.typedChar &&
+    !p.isCorrect &&
+    css`
       background: #ffc3c3;
       color: #6b000c;
       
@@ -57,62 +124,11 @@ const StyledChar = styled.span`
 
   /* Caret */
   ${(p: StyledCharProps) =>
-  p.showCaret &&
-  css`
-      background: #a8d5ff;
-      border-bottom: 3px solid #0077ff;
+    p.showCaret &&
+    css`
+      background: #f7e6ff;
+      border-bottom: 3px solid #5500cc;
       border-radius: 0;
+      animation: ${blink} 1000ms ease-in-out infinite;
     `}
 `;
-
-interface Props {
-  char: string;
-  typedChar: string | null;
-  showCaret: boolean;
-}
-
-interface State {
-  isMistake: boolean;
-}
-
-class Char extends Component<Props, State> {
-  public readonly state = {
-    isMistake: false,
-  };
-
-  public shouldComponentUpdate(nextProps: Props): boolean {
-    return (
-      this.props.typedChar !== nextProps.typedChar ||
-      this.props.showCaret !== nextProps.showCaret
-    );
-  }
-
-  public componentDidUpdate(prevProps: Props): void {
-    if (this.props.typedChar) {
-      const isCorrect: boolean = this.props.char === this.props.typedChar;
-
-      if (!isCorrect && !this.state.isMistake) {
-        this.setState(() => ({
-          isMistake: true,
-        }));
-      }
-    }
-  }
-
-  public render(): React.ReactElement {
-    const { char, typedChar, showCaret } = this.props;
-
-    return (
-      <StyledChar
-        typedChar={typedChar}
-        showCaret={showCaret}
-        isCorrect={char === typedChar}
-        isMistake={this.state.isMistake}
-      >
-        {char === " " ? <i>&nbsp;</i> : char}
-      </StyledChar>
-    );
-  }
-}
-
-export default Char;

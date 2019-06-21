@@ -1,0 +1,19 @@
+.page {
+  &__header {
+    background: orange;
+    text-align: center;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.6);
+    margin-bottom: 3rem;
+
+    h1 {
+      display: inline-block;
+      margin: 1rem 0;
+      font-size: 2rem;
+      color: #000;
+    }
+  }
+
+  &__content {
+
+  }
+}
