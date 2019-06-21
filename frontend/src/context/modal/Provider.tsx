@@ -20,7 +20,6 @@ class ModalProvider extends Component<{}, State> {
     component: ComponentClass<any, any>,
     props: any,
   ): void => {
-    console.log("Time to show modal!");
     this.setState(
       (): State => ({
         component,
@@ -43,6 +42,8 @@ class ModalProvider extends Component<{}, State> {
       showModal: this.showModal,
       hideModal: this.hideModal,
     };
+
+    console.log("Modal state.props:", this.state);
 
     return (
       <ModalContext.Provider value={value}>

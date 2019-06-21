@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import Exercises from "components/Exercises";
-import Exercise from "components/Exercise";
+import Exercise from "components/Exercises/ExerciseContainer";
 
 const Scene = (props: RouteComponentProps): ReactElement => {
   return (

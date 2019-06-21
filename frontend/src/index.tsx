@@ -2,13 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import store from "./store";
-import App from "./App";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
-import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider } from "react-apollo";
+import store from "./store";
+import ModalProvider from "./context/modal/Provider";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -24,7 +25,9 @@ const app = (
   <ApolloProvider client={client}>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </BrowserRouter>
     </Provider>
   </ApolloProvider>

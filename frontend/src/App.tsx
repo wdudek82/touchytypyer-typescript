@@ -1,29 +1,8 @@
 import React, { ReactNode } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { createGlobalStyle } from "styled-components/macro";
 import ExercisesScene from "pages/Exercises/Scene";
-import ModalProvider from "./context/modal/Provider";
-import "theme/index.css";
 
-const GlobalStyles = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  html {
-    font-size: 10px;
-  }
-
-  body {
-    font-size: 1.6rem;
-    font-family: 'Roboto', sans-serif;
-    
-    display: flex;
-    justify-content: center;
-  }
-`;
+import "theme/index.scss";
 
 const renderRoutes = (): ReactNode => {
   return (
@@ -43,15 +22,7 @@ const renderRoutes = (): ReactNode => {
 };
 
 const App = (): React.ReactElement => {
-  return (
-    <ModalProvider>
-      <div className="App">
-        <GlobalStyles />
-
-        {renderRoutes()}
-      </div>
-    </ModalProvider>
-  );
+  return <div className="App">{renderRoutes()}</div>;
 };
 
 export default App;
