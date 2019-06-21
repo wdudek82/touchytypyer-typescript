@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import { QueryResult } from "react-apollo";
 import Query from "react-apollo/Query";
 import { ExerciseItem } from "types/exercises";
-import { WithModalProps } from "context/modal/Context";
 import { GET_EXERCISES, GetExercisesData } from "./queries";
 import "./styles.scss";
 
-type Props = WithModalProps;
-
-const Exercises = (props: Props): ReactElement => {
+const Exercises = (props: {}): ReactElement => {
   useEffect(
     (): void => {
       document.title = "TouchyTyper | Exercises";

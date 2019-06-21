@@ -1,3 +1,4 @@
 import Exercises from "./Exercises";
+import Exercise from "./ExerciseContainer";
 
-export default Exercises;
+export { Exercise, Exercises };

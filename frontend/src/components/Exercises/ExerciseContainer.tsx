@@ -1,5 +1,5 @@
 import React, { ChangeEvent, Component, Fragment, ReactElement, ReactNode } from "react";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Query, QueryResult, WithApolloClient } from "react-apollo";
 import withModal from "context/modal";
 import hash from "object-hash";
@@ -11,9 +11,9 @@ import UpdateExerciseModal from "./UpdateExerciseModal/UpdateExerciseModal";
 import { GET_EXERCISE, GetExerciseData } from "./queries";
 import Exercise from "./Exercise";
 
-type Props = WithApolloClient<
-  RouteComponentProps<{ exerciseId: string }> & WithModalProps
->;
+interface Props extends WithApolloClient<WithModalProps> {
+  exerciseId: string;
+}
 
 interface State {
   textTypedByUser: string;
@@ -85,7 +85,7 @@ class ExerciseContainer extends Component<Props, State> {
           query={GET_EXERCISE}
           variables={{
             where: {
-              id: this.props.match.params.exerciseId,
+              id: this.props.exerciseId,
             },
           }}
         >
